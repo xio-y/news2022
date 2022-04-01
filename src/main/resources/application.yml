@@ -1,0 +1,44 @@
+#server:
+#  port: 9090
+#  servlet:
+#    context-path: /news2022
+web:
+  uploadPath: D:/uploadFile/
+#
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    group: news-group
+    send-message-timeout: 3000
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/newsdbmongo
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+  servlet:
+    multipart:
+      max-file-size:
+        10MB
+      max-request-size:
+        20MB
+  mvc:
+    static-path-pattern: /pic/**
+  web:
+    resources:
+      static-locations: file:${web.uploadPath}
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/newsdb
+    username: root
+    password:
+    initial-size: 5
+    min-idle: 5
+    max-active: 20
+    max-wait: 60000
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
