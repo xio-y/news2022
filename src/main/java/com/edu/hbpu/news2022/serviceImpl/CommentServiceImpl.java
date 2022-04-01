@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
-    //a
+
     @Autowired
     CommentMapper commentMapper;
     @Override
