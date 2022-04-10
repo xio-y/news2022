@@ -42,7 +42,7 @@ public class NewsController {
     @GetMapping("getSwipeNews")
     public IPage<News> getSwipe(){
         Page<News> page=new Page<>(1,5);
-        QueryWrapper<News> queryWrapper=new QueryWrapper<News>();
+        QueryWrapper<News> queryWrapper= new QueryWrapper<>();
         queryWrapper.select("newsId","pictures").orderByAsc("newsId");
         return newsService.page(page,queryWrapper);
     }
@@ -51,6 +51,14 @@ public class NewsController {
     public IPage<News> getPage(Page<News> page){
         QueryWrapper<News> queryWrapper=new QueryWrapper<>();
         queryWrapper.select("newsId","pictures","title","time","source").orderByDesc("newsId");
+        return newsService.page(page,queryWrapper);
+    }
+    @GetMapping("/getByUid")
+    public IPage<News> getByUid(Page<News> page,Integer uid){
+        QueryWrapper<News> queryWrapper=new QueryWrapper<>();
+        queryWrapper.select("newsId","pictures","title","time","source")
+                .eq("uid",uid)
+                .orderByDesc("newsId");
         return newsService.page(page,queryWrapper);
     }
 
