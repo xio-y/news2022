@@ -1,11 +1,14 @@
 package com.edu.hbpu.news2022.controller;
 
 
+import com.edu.hbpu.news2022.entity.User;
 import com.edu.hbpu.news2022.service.FollowUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/news2022/followUser")
@@ -24,5 +27,13 @@ public class FollowUserController {
     @GetMapping("/isFollowUser")
     boolean isFollowUser(Long userId,Long followUserId){
         return  followUserService.isFollowUser(userId,followUserId);
+    }
+    @GetMapping("/getFollowUsersByUid")
+    List<User> getFollowUsersByUid(Long userId){
+        return followUserService.getFollowUsersByUid(userId);
+    }
+    @GetMapping("/getUsersByFollowUid")
+    List<User> getUsersByFollowUid(Long followUserId){
+        return followUserService.getUsersByFollowUid(followUserId);
     }
 }

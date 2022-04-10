@@ -1,7 +1,10 @@
 package com.edu.hbpu.news2022.serviceImpl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.edu.hbpu.news2022.entity.FollowUser;
+import com.edu.hbpu.news2022.entity.User;
+import com.edu.hbpu.news2022.mapper.UserMapper;
 import com.edu.hbpu.news2022.service.FollowUserService;
 import com.mongodb.client.result.DeleteResult;
 import org.bson.types.ObjectId;
@@ -11,6 +14,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FollowUserServiceImpl implements FollowUserService {
@@ -53,5 +59,35 @@ public class FollowUserServiceImpl implements FollowUserService {
     @Override
     public boolean isFollowUser(Long userId, Long followUserId) {
         return redisTemplate.opsForHash().hasKey(this.getFollowUserKey(userId),followUserId+"");
+    }
+
+    @Autowired
+    UserMapper userMapper;
+    @Override
+    public List<User> getFollowUsersByUid(Long userId) {
+        Query query=Query.query(Criteria.where("userId").is(userId));
+        List<FollowUser> list=mongoTemplate.find(query,FollowUser.class);
+        List<User> userList=new ArrayList<>();
+        for(FollowUser followUser:list){
+            QueryWrapper<User> wrapper=new QueryWrapper<>();
+            wrapper.select("uid,username,image").eq("uid",followUser.getFollowUserId());
+            User user=userMapper.selectOne(wrapper);
+            userList.add(user);
+        }
+        return userList;
+    }
+
+    @Override
+    public List<User> getUsersByFollowUid(Long followUserId) {
+        Query query=Query.query(Criteria.where("followUserId").is(followUserId));
+        List<FollowUser> list=mongoTemplate.find(query,FollowUser.class);
+        List<User> userList=new ArrayList<>();
+        for(FollowUser followUser:list){
+            QueryWrapper<User> wrapper=new QueryWrapper<>();
+            wrapper.select("uid,username,image").eq("uid",followUser.getUserId());
+            User user=userMapper.selectOne(wrapper);
+            userList.add(user);
+        }
+        return userList;
     }
 }
