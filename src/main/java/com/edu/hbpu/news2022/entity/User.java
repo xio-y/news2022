@@ -24,6 +24,7 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private transient String checkcode;//注册邮箱验证码
     /**
      * 用户编号
      */

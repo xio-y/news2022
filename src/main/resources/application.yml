@@ -11,6 +11,13 @@ rocketmq:
     group: news-group
     send-message-timeout: 3000
 spring:
+  mail:
+    host: smtp.163.com
+    username: eve20001008@163.com
+    #163邮箱的授权码
+    password: YECGFAFPVIZCKIPT
+    protocol: smtp
+    default-encoding: UTF-8
   data:
     mongodb:
       uri: mongodb://localhost:27017/newsdbmongo
