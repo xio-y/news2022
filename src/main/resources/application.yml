@@ -4,7 +4,7 @@
 #    context-path: /news2022
 web:
   uploadPath: D:/uploadFile/
-#
+  #uploadPath: /www/uploadFile
 rocketmq:
   name-server: 127.0.0.1:9876
   producer:
