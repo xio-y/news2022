@@ -4,6 +4,8 @@ import com.edu.hbpu.news2022.entity.News;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -23,5 +25,9 @@ public interface NewsMapper extends BaseMapper<News> {
                         many = @Many(select ="com.edu.hbpu.news2022.mapper.PictureMapper.getPicListByNewsid"))
     })
     News getById(int newsid);
+
+    @Select("SELECT n.title,n.newsid,n.pictures,n.video,n.time,n.source,u.userName,u.image FROM news n "
+            + "LEFT JOIN user u ON n.uid=u.uid where n.kindId=#{kindId} and n.type=3" )
+    List<News> getVideosByKindId(Integer kindId);
 
 }

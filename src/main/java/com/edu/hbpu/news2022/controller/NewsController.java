@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.edu.hbpu.news2022.entity.News;
+import com.edu.hbpu.news2022.entity.QueryVo;
 import com.edu.hbpu.news2022.entity.User;
 import com.edu.hbpu.news2022.service.NewsService;
 import org.apache.commons.io.FileUtils;
@@ -14,11 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -105,6 +103,19 @@ public class NewsController {
         queryWrapper.select("newsId","pictures","title","time","source")
                 .eq("kindId",kindId).orderByDesc("newsId");
         return newsService.list(queryWrapper);
+    }
+
+    @GetMapping("/getVideosByKindId")
+    public List<News> getVideosByKindId(Integer kindId){
+        return newsService.getVideosByKindId(kindId);
+    }
+    @PostMapping("/getPageNewsByTitle")
+    IPage<News> getPageNewsByTitle(@RequestBody QueryVo vo){
+        Page<News> page=new Page<>(vo.getCurrent(),10);
+        QueryWrapper<News> queryWrapper=new QueryWrapper<>();
+        queryWrapper.select("newsId","pictures","title","time","source")
+                .like("title",vo.getTitle()).orderByDesc("newsId");
+        return newsService.page(page,queryWrapper);
     }
 }
 

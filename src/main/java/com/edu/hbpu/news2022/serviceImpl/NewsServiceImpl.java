@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -23,5 +25,10 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News> implements Ne
     @Override
     public News getById(int newsid) {
         return newsMapper.getById(newsid);
+    }
+
+    @Override
+    public List<News> getVideosByKindId(Integer kindId) {
+        return newsMapper.getVideosByKindId(kindId);
     }
 }
