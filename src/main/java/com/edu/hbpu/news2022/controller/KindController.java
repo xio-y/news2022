@@ -42,5 +42,10 @@ public class KindController{
             return list;
             }
         }
+
+        @GetMapping("/getNumsByKind")
+        List<Kind> getNumsByKind(){
+            return  kindService.getNumsByKind();
+        }
 }
 

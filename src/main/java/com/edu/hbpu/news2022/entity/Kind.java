@@ -35,5 +35,7 @@ public class Kind implements Serializable {
     @TableField("content")
     private String content;
 
+    private transient Long nums;
+
 
 }

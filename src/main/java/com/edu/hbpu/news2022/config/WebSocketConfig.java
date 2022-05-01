@@ -14,7 +14,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         //注册客户端端点，与客户端连接
         registry.addEndpoint("/ws/ep")
-                .setAllowedOrigins("http://localhost:3000")
+                //.setAllowedOrigins("http://localhost:3000")
+                .setAllowedOriginPatterns("*")
                 .withSockJS();
     }
 
