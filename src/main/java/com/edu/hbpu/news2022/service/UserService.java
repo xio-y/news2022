@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-03-10
  */
 public interface UserService extends IService<User> {
-
+    public void disable(User u);
 }

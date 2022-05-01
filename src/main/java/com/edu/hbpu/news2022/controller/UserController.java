@@ -49,7 +49,10 @@ public class UserController {
         return userService.page(page);
     }
 
-
+    @GetMapping("/disable")
+    void disable(User u){
+        userService.disable(u);
+    }
     @PostMapping("/checkUsername")
     String checkUsername(@RequestBody User u){
         QueryWrapper<User> wrapper=new QueryWrapper<>();
@@ -84,10 +87,11 @@ public class UserController {
     @PostMapping("/login")
     User login(@RequestBody User u){
         QueryWrapper<User> wrapper=new QueryWrapper<>();
-        wrapper.select("username,image,uid").eq("username",u.getUsername()).eq("password",u.getPassword());
+        wrapper.select("username,image,uid,type").eq("username",u.getUsername()).eq("password",u.getPassword());
         User user=userService.getOne(wrapper);
         if(user!=null){
-            this.rocketMQTemplate.convertAndSend("login-log",user);
+            if(user.getType()==0) return null;
+            else this.rocketMQTemplate.convertAndSend("login-log",user);
         }
         return user;
     }
